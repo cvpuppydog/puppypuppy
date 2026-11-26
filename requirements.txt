@@ -1,0 +1,20 @@
+# 공통
+numpy>=1.24
+pandas>=2.0
+scipy
+scikit-learn>=1.4
+matplotlib>=3.7
+pyyaml
+tqdm
+joblib>=1.3
+pillow
+
+# 딥 특징 (CLIP / DINOv2 / DINOv3)
+torch>=2.0
+transformers>=4.56      # DINOv3 지원 버전
+
+# SIFT (C)
+opencv-contrib-python>=4.8
+
+# 데모
+gradio
