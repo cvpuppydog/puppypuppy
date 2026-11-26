@@ -1,0 +1,47 @@
+# ── 데이터와 산출물 ───────────────────────────────────────────
+*.npy
+*.npz
+*.pt
+# 학습된 가중치는 저장소에 넣는다 (분류기 12 + 섞기 12, 합 7.4MB)
+!models/classifier/*.npz
+!models/mixing/*.pt
+*.pth
+*.joblib
+*.zip
+data/
+outputs/
+
+# ── 사진 (원고·결과 그림은 예외) ──────────────────────────────
+*.jpg
+*.jpeg
+*.png
+!report/**/*.png
+!figures/**/*.png
+!figures/**/*.svg
+!report/**/*.jpg
+!report/**/*.jpeg
+
+# ── 재배포 금지: UF 사진·DNA·개체별 결과 ──────────────────────
+dna_UF*.csv
+truth_UF*.csv
+**/split.csv
+**/perdog*
+**/pred/
+**/index_eval_uf*.csv
+**/index_local_v2.csv
+**/*condition_scores.csv
+**/*_detail_dev.csv
+**/*control_manifest.csv
+**/*panel_predictions.csv
+**/final_test_predictions*.csv
+**/test_integration_status.csv
+
+# ── 작업 파일 ─────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+.venv/
+venv/
+
+.pytest_cache/
