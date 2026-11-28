@@ -113,7 +113,7 @@ def main():
                      captured_orig=wins / N_BOOT, note=f"{N_BOOT}회 중 비율"))
 
     out = pd.DataFrame(rows)
-    out.round(4).to_csv(ROOT / "results" / "dev_combo_analysis.csv", index=False, encoding="utf-8-sig")
+    out.round(4).to_csv(ROOT / "results" / "prototype" / "dev_combo_analysis.csv", index=False, encoding="utf-8-sig")
     with pd.option_context("display.width", 200, "display.max_colwidth", 60):
         print(out.round(3).fillna("").to_string(index=False))
 

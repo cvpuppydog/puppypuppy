@@ -280,7 +280,8 @@ def main():
     ap.add_argument("--preds", type=Path, required=True)
     ap.add_argument("--uf-dir", type=Path, required=True)
     a = ap.parse_args()
-    res, figs = ROOT / "results", ROOT / "figures"
+    res, figs = ROOT / "results" / "prototype", ROOT / "figures" / "prototype"
+    figs.mkdir(parents=True, exist_ok=True)
 
     sep, sh = feature_checks(a)
     probs = load_probs(a.preds / "dev")

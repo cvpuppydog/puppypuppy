@@ -234,16 +234,16 @@ def fig_vs_a(df: pd.DataFrame, a_dir: Path, a_exact: Path, l2: bool, out: Path) 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--l2", action="store_true", help="L2 정규화한 설정으로 그린다 (기본: L2 없음)")
-    ap.add_argument("--out", default=str(ROOT / "figures"))
-    ap.add_argument("--a-results", default=str(ROOT.parent / "A" / "results"),
+    ap.add_argument("--out", default=str(ROOT / "figures" / "prototype"))
+    ap.add_argument("--a-results", default=str(ROOT / "results" / "classifier"),
                     help="A 의 results 폴더 (순종 val Top-1 용. 없으면 건너뜀)")
-    ap.add_argument("--a-exact", default=str(ROOT.parent / "A" / "A" / "results" / "dev_ratio_metrics_exact.csv"),
+    ap.add_argument("--a-exact", default=str(ROOT / "results" / "classifier" / "dev_ratio_metrics_exact.csv"),
                     help="A 의 정확 매핑 dev 지표 (믹스견 Top-1 용)")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    df = pd.read_csv(ROOT / "results" / "raw_dev_scores.csv")
-    conf = pd.read_csv(ROOT / "results" / "purebred_confusions.csv")
+    df = pd.read_csv(ROOT / "results" / "prototype" / "raw_dev_scores.csv")
+    conf = pd.read_csv(ROOT / "results" / "prototype" / "purebred_confusions.csv")
     suffix = "_l2" if args.l2 else ""
     fig_top1(df, args.l2, out / f"dev_purebred_vs_mixed_top1{suffix}.png")
     fig_captured(df, args.l2, out / f"dev_captured_share{suffix}.png")

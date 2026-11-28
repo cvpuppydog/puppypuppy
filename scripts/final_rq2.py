@@ -43,7 +43,7 @@ import pandas as pd
 from PIL import Image
 
 B = Path(__file__).resolve().parents[1]
-ROOT = B.parent
+ROOT = B
 sys.path.insert(0, str(B))
 sys.path.insert(0, str(B / "scripts"))
 
@@ -291,7 +291,7 @@ def main():
     ap.add_argument("--panels", type=Path, default=ROOT / "data" / "uf_dogs" / "panels")
     ap.add_argument("--masks", type=Path, default=ROOT / "data" / "d_rq2" / "sam3_masks")
     ap.add_argument("--uf-dir", type=Path, default=ROOT / "data" / "evalset_uf")
-    ap.add_argument("--a-weights", type=Path, default=ROOT / "A" / "A" / "A_to_D_handoff")
+    ap.add_argument("--a-weights", type=Path, default=ROOT / "models" / "classifier")
     ap.add_argument("--sift-dir", type=Path, default=ROOT / "data" / "d_rq2" / "sift_v3")
     ap.add_argument("--b-features", type=Path, default=ROOT / "outputs" / "features_drive")
     ap.add_argument("--out", type=Path, default=None, help="기본 ../outputs/final_rq2/{split}")

@@ -171,12 +171,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--feat", type=Path, required=True)
     ap.add_argument("--backbones", nargs="+", default=["dinov2", "clip", "dinov3"])
-    ap.add_argument("--uf-dir", type=Path, default=ROOT.parent / "data" / "evalset_uf")
-    ap.add_argument("--uf-feat", type=Path, default=ROOT.parent / "outputs" / "features_drive",
+    ap.add_argument("--uf-dir", type=Path, default=ROOT / "data" / "evalset_uf")
+    ap.add_argument("--uf-feat", type=Path, default=ROOT / "outputs" / "features_drive",
                     help="공식 UF 특징 루트 ({추출기}/eval_uf_panels)")
     ap.add_argument("--dna", type=Path, default=None, help="Top-1 정답용 dna_UF.csv (기본: uf-dir 안)")
     ap.add_argument("--a-impl", choices=["sklearn", "torch"], default="sklearn")
-    ap.add_argument("--out-csv", type=Path, default=ROOT / "results" / "improve_dev.csv")
+    ap.add_argument("--out-csv", type=Path, default=ROOT / "results" / "prototype" / "improve_dev.csv")
     args = ap.parse_args()
     print(f"장치: {DEVICE}, 분류기 구현: {args.a_impl}", flush=True)
 

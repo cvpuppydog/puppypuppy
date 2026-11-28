@@ -39,7 +39,7 @@ from src.common import evalset, tsinghua  # noqa: E402
 from src.common.config import load_yaml  # noqa: E402
 from src.common.features_io import load_features, save_shard, subset_dir  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 UF = ROOT / "data" / "evalset_uf"
 BACKBONES = ["clip", "dinov2", "dinov3"]
 LABEL = {"clip": "CLIP", "dinov2": "DINOv2", "dinov3": "DINOv3"}

@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-RES = ROOT / "results"
+RES = ROOT / "results" / "prototype"
 TOTAL_DEV_DOGS = 20
 REPEATS = 3
 

@@ -137,7 +137,7 @@ def main():
                              note="학습셋 평균점 코사인 순위, 풀이 방식 없음"))
 
     out = pd.DataFrame(rows)
-    out.round(6).to_csv(ROOT / "results" / "dev_failure_stages.csv", index=False, encoding="utf-8-sig")
+    out.round(6).to_csv(ROOT / "results" / "prototype" / "dev_failure_stages.csv", index=False, encoding="utf-8-sig")
     with pd.option_context("display.width", 250, "display.max_columns", 30):
         print(out.drop(columns=["note"], errors="ignore").round(3).fillna("").to_string(index=False))
 

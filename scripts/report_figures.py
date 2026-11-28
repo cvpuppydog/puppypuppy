@@ -60,7 +60,7 @@ def bar_labels(ax, bars, values):
 
 
 def fig_dev_captured(out: Path):
-    df = pd.read_csv(ROOT / "results" / "dev_rq1_comparison.csv")
+    df = pd.read_csv(ROOT / "results" / "prototype" / "dev_rq1_comparison.csv")
     get = lambda m, bb: df.loc[(df.method == m) & (df.backbone == bb), "captured_orig"].astype(float)
     val = lambda m: [float(get(m, k).iloc[0]) if len(get(m, k).dropna()) else np.nan for k, _ in EXTRACTORS]
     methods = [("A_classifier", C_CLF, "분류기"), ("B_fcls", C_PROTO, "평균점 섞기"), ("C_mix", C_MIX, "섞기 학습")]
@@ -127,8 +127,8 @@ def fig_pipeline(out: Path):
 
 
 def fig_purebred_vs_mixed(out: Path):
-    pure = pd.read_csv(ROOT / "results" / "purebred_top1_same_set.csv")
-    mix = pd.read_csv(ROOT / "results" / "dev_rq1_comparison.csv")
+    pure = pd.read_csv(ROOT / "results" / "prototype" / "purebred_top1_same_set.csv")
+    mix = pd.read_csv(ROOT / "results" / "prototype" / "dev_rq1_comparison.csv")
     methods = [("A_classifier", C_CLF, "분류기"), ("B_fcls", C_PROTO, "평균점 섞기"), ("C_mix", C_MIX, "섞기 학습")]
     markers = {"clip": ("o", "CLIP"), "dinov2": ("s", "DINOv2"), "dinov3": ("^", "DINOv3")}
     chance = float(mix.loc[mix.method == "chance", "captured_orig"].iloc[0])
@@ -158,7 +158,7 @@ def fig_purebred_vs_mixed(out: Path):
 
 
 def fig_dog_groups(out: Path):
-    df = pd.read_csv(ROOT / "results" / "dog_difficulty.csv")
+    df = pd.read_csv(ROOT / "results" / "prototype" / "dog_difficulty.csv")
     groups = [("전체", "전체"), ("coverage < 0.5", "커버리지 < 0.5"), ("coverage ≥ 0.5", "커버리지 ≥ 0.5"),
               ("불리 혈통 있음 (정확 매핑)", "불리 계열\n혈통 있음"), ("불리 혈통 없음 (정확 매핑)", "불리 계열\n혈통 없음")]
     rows = [df.loc[df.group == g].iloc[0] for g, _ in groups]
@@ -181,7 +181,7 @@ def fig_dog_groups(out: Path):
 
 def fig_failure_stages(out: Path):
     """그림 4: 혈통이 어느 단계에서 사라지나. (a) 설정별 누적 막대 (b) 9개 설정 합의."""
-    df = pd.read_csv(ROOT / "results" / "dev_failure_stages.csv")
+    df = pd.read_csv(ROOT / "results" / "prototype" / "dev_failure_stages.csv")
     st = df[df.analysis == "1_stage_by_setting"].set_index("config")
     order = [f"{m} {bb}" for m in ["분류기", "평균점 섞기", "섞기 학습"] for bb in ["clip", "dinov2", "dinov3"]]
     st = st.loc[order]
@@ -231,7 +231,7 @@ def fig_failure_stages(out: Path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=str(ROOT.parent / "report" / "figures"))
+    ap.add_argument("--out", default=str(ROOT / "report" / "figures"))
     out = Path(ap.parse_args().out); out.mkdir(parents=True, exist_ok=True)
     setup()
     fig_pipeline(out)

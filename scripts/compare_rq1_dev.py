@@ -109,7 +109,7 @@ def purebred(a_dir: Path | None, val_split: Path | None, b_val_dir: Path | None 
             if len(accs) == 3:
                 rows.append(dict(method="A_classifier", backbone=bb, images=n, top1=np.mean(accs),
                                  rep_min=min(accs), rep_max=max(accs)))
-    b = pd.read_csv(ROOT / "results" / "model_summary.csv")
+    b = pd.read_csv(ROOT / "results" / "prototype" / "model_summary.csv")
     for _, r in b[b["model_name"].isin(DEEP)].iterrows():
         rows.append(dict(method="B_fcls", backbone=r["model_name"], images=int(r["images"]), top1=r["top1_accuracy"],
                          rep_min=r["top1_rep_min"], rep_max=r["top1_rep_max"]))
@@ -128,7 +128,7 @@ def purebred(a_dir: Path | None, val_split: Path | None, b_val_dir: Path | None 
         avg = sum(f[cls] for f in frames) / 3
         rows.append(dict(method="B_fcls", backbone=bb, images=len(lab), top1=float((avg.idxmax(axis=1) == lab).mean()),
                          rep_min=min(each), rep_max=max(each)))
-    c_log = ROOT.parent / "C" / "docs" / "experiment_log_RQ1.csv"
+    c_log = ROOT / "results" / "logs" / "experiment_log_RQ1.csv"
     if c_log.exists():
         c = pd.read_csv(c_log)
         for (meth, bb), g in c.groupby(["method", "extractor"]):
@@ -185,7 +185,7 @@ def main():
                              top1_n=s["n"], coverage=s["n"] / len(sc.dogs), captured_orig_rep_min=min(reps),
                              captured_orig_rep_max=max(reps), vs_chance_diff=d, vs_chance_2se=se2,
                              vs_chance={"앞쪽이 높음": "찍기보다 높음", "뒤쪽이 높음": "찍기보다 낮음"}.get(v, v)))
-    hum = pd.read_csv(ROOT / "results" / f"{sp}_human_baseline.csv", encoding="utf-8-sig")
+    hum = pd.read_csv(ROOT / "results" / "prototype" / f"{sp}_human_baseline.csv", encoding="utf-8-sig")
     hm = hum[(hum["space"] == "model") & (hum["mapping"] == "exact")]
     h = lambda metric, truth: float(hm[(hm["metric"] == metric) & (hm["truth"] == truth)
                                        & hm["picks"].isin(["breeds", "first_breed"])]["human"].iloc[0])
@@ -198,7 +198,7 @@ def main():
     rows.append(dict(method="ceiling", backbone="-", captured_orig=P.ceiling(sc.orig, sc.dogs).mean(),
                      captured_norm=P.ceiling(sc.norm, sc.use_norm).mean(), overlap_norm=1.0, note="정확 매핑"))
     res = pd.DataFrame(rows)
-    res.round(4).to_csv(ROOT / "results" / f"{sp}_rq1_comparison.csv", index=False, encoding="utf-8-sig")
+    res.round(4).to_csv(ROOT / "results" / "prototype" / f"{sp}_rq1_comparison.csv", index=False, encoding="utf-8-sig")
     print(res[["method", "backbone", "captured_orig", "captured_norm", "overlap_norm", "top1_hits", "top1_n",
                "vs_chance"]].round(3).to_string(index=False))
 
@@ -217,7 +217,7 @@ def main():
                              top1_only_second=len(b["hits"] - a["hits"]),
                              same_top1_class=float((a["top"] == b["top"]).mean())))
     paired = pd.DataFrame(prow)
-    paired.round(4).to_csv(ROOT / "results" / f"{sp}_rq1_paired.csv", index=False, encoding="utf-8-sig")
+    paired.round(4).to_csv(ROOT / "results" / "prototype" / f"{sp}_rq1_paired.csv", index=False, encoding="utf-8-sig")
     print("\n[방법 짝 비교: 포착@3 원래, 개 단위 짝 차이 ± 2SE]")
     print(paired.round(3).to_string(index=False))
     have = [k for k in S if k[1] in DEEP]
@@ -241,7 +241,7 @@ def main():
             add(f"{k} 딥 3종 평균", ms)
     add("전부 (방법 × 딥 3종)", [ens[k] for k in have])
     eq = pd.DataFrame(erow)
-    eq.round(4).to_csv(ROOT / "results" / f"{sp}_rq1_equal_weight.csv", index=False, encoding="utf-8-sig")
+    eq.round(4).to_csv(ROOT / "results" / "prototype" / f"{sp}_rq1_equal_weight.csv", index=False, encoding="utf-8-sig")
     print("\n[같은 가중치 결합 참고값 (가중치를 고르지 않음, 설정 선택에 쓰지 않음)]")
     print(eq.round(3).to_string(index=False))
 
@@ -249,7 +249,7 @@ def main():
         fig_dev(res, sp)
         return
     pure = purebred(args.a_dir, args.val_split, args.b_val_dir)
-    pure.round(4).to_csv(ROOT / "results" / "purebred_top1_same_set.csv", index=False, encoding="utf-8-sig")
+    pure.round(4).to_csv(ROOT / "results" / "prototype" / "purebred_top1_same_set.csv", index=False, encoding="utf-8-sig")
     print("\n[순종 Top-1, val dev 절반 2,540장]")
     print(pure.pivot(index="method", columns="backbone", values="top1").reindex(columns=BACKBONES).round(3).to_string())
 
@@ -298,7 +298,8 @@ def fig_dev(res: pd.DataFrame, sp: str = "dev"):
              "averaged before scoring. Top-1 bars show Wilson 95% CI.",
              ha="center", color=INK2, fontsize=8.5)
     fig.tight_layout(rect=(0, 0.04, 1, 0.88))
-    out_png = ROOT / "figures" / f"{sp}_rq1_with_human.png"
+    out_png = ROOT / "figures" / "prototype" / f"{sp}_rq1_with_human.png"
+    out_png.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_png, dpi=200, facecolor=SURFACE)
     print(f"\n저장 → results/{sp}_rq1_*.csv, {out_png}")
 

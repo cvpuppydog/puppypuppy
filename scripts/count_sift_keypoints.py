@@ -90,7 +90,7 @@ def main():
     rows.append(summarize("UF dev 전체", per["face"][0] + per["body"][0], per["face"][1] + per["body"][1]))
 
     df = pd.DataFrame(rows)
-    df.round(3).to_csv(ROOT / "results" / "sift_keypoints.csv", index=False, encoding="utf-8-sig")
+    df.round(3).to_csv(ROOT / "results" / "prototype" / "sift_keypoints.csv", index=False, encoding="utf-8-sig")
     print(df.round(2).to_string(index=False))
     if missing:
         print(f"(학습셋 읽기 실패 {missing}장 제외)")
