@@ -7,7 +7,7 @@ import joblib
 import numpy as np
 
 
-ROOT = Path(__file__).resolve().parent / "results"
+ROOT = Path(__file__).resolve().parents[1] / "outputs"
 
 
 def main() -> int:
