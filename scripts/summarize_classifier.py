@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
-RESULTS = ROOT / "results"
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "results" / "classifier"
 
 
 def main() -> int:
